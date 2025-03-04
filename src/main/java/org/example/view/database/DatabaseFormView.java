@@ -5,7 +5,6 @@ import org.example.view.ViewConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
 
 public class DatabaseFormView extends JFrame {
 
@@ -122,7 +121,7 @@ public class DatabaseFormView extends JFrame {
     add(panel, gbc);
   }
 
-  public TranslateItemModel item () throws SQLException {
+  public TranslateItemModel item () {
     if (item != null) return item;
 
     String fr = txtFR.getText().replaceAll("\\.$", "").trim();

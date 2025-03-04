@@ -19,7 +19,7 @@ public class GameView extends JFrame {
   private final JLabel lblCorrect = new JLabel("✅: 0");
   private final JLabel lblWrong = new JLabel("❌: 0");
 
-  public GameView (GameSettings settings) throws SQLException {
+  public GameView (GameSettings settings) {
     this.settings = settings;
 
     setTitle("Translate Game");
@@ -92,18 +92,15 @@ public class GameView extends JFrame {
 
   public ProgressBarComponent pbarScore () {return pbarScore;}
 
+  public GameSettings settings () {return settings;}
+
   public static void main (String[] args) {
     SwingUtilities.invokeLater(() -> {
-      try {
-        GameSettings settings = MainView.settings;
-        GameView v = new GameView(settings);
-        new GameController(v);
-        v.setVisible(true);
-      } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR - SQLException", JOptionPane.ERROR_MESSAGE);
-      }
+      GameSettings settings = MainView.settings;
+      GameView v = new GameView(settings);
+      new GameController(v);
+      v.setVisible(true);
     });
   }
 
-  public GameSettings settings () {return settings;}
 }

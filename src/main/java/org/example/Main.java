@@ -1,7 +1,6 @@
 package org.example;
 
 import org.example.controller.MainController;
-import org.example.dao.TranslateItemDAO;
 import org.example.view.MainView;
 
 import javax.swing.*;

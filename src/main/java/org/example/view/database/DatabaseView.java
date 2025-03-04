@@ -1,11 +1,9 @@
 package org.example.view.database;
 
-import org.example.controller.database.DatabaseController;
 import org.example.view.ViewConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
 
 public class DatabaseView extends JFrame {
 
@@ -19,19 +17,25 @@ public class DatabaseView extends JFrame {
   private final GridBagConstraints gbc = new GridBagConstraints();
   private final JPanel itemsPanel = new JPanel();
 
-  public DatabaseView () {
+  public DatabaseView() {
     setTitle("Translate Game - Database");
     setSize(ViewConstants.APP_WIDTH, ViewConstants.APP_HEIGHT);
     setLocationRelativeTo(null);
     setResizable(false);
     setLayout(new GridBagLayout());
 
+    btnBatchAdd.setEnabled(false);
+    btnBatchAdd.setToolTipText("Developing...");
+
+    menuBatchAdd.setEnabled(false);
+    menuBatchAdd.setToolTipText("Developing...");
+
     renderMenu();
     renderToolbarPanel();
     renderItemsList();
   }
 
-  private void renderMenu () {
+  private void renderMenu() {
     JMenuBar menuBar = new JMenuBar();
     JMenu fileMenu = new JMenu("File");
 
@@ -43,7 +47,7 @@ public class DatabaseView extends JFrame {
     setJMenuBar(menuBar);
   }
 
-  private void renderToolbarPanel () {
+  private void renderToolbarPanel() {
     JPanel panelButtons = new JPanel();
     panelButtons.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
     panelButtons.setPreferredSize(new Dimension(800, 80));
@@ -57,7 +61,7 @@ public class DatabaseView extends JFrame {
     add(panelButtons, gbc);
   }
 
-  private void renderItemsList () {
+  private void renderItemsList() {
 
     itemsPanel.setLayout(new GridBagLayout());
     gbc.gridx = 0;
@@ -75,25 +79,27 @@ public class DatabaseView extends JFrame {
     add(scrollPane, gbc);
   }
 
-  public JButton getBtnCreateItem () {return this.btnCreateItem;}
+  public JButton getBtnCreateItem() {
+    return this.btnCreateItem;
+  }
 
-  public JButton getBtnBatchAdd () {return this.btnBatchAdd;}
+  public JButton getBtnBatchAdd() {
+    return this.btnBatchAdd;
+  }
 
-  public JPanel itemsPanel () {return this.itemsPanel;}
+  public JPanel itemsPanel() {
+    return this.itemsPanel;
+  }
 
-  public JMenuItem menuCreateItem () {return this.menuCreateItem;}
+  public JMenuItem menuCreateItem() {
+    return this.menuCreateItem;
+  }
 
-  public JMenuItem menuBatchAdd () {return this.menuBatchAdd;}
+  public JMenuItem menuBatchAdd() {
+    return this.menuBatchAdd;
+  }
 
-  public JMenuItem menuRestoreItem () {return this.menuRestoreItem;}
-
-  public static void main (String[] args) {
-    DatabaseView dbView = new DatabaseView();
-    try {
-      new DatabaseController(dbView, null);
-      dbView.setVisible(true);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
+  public JMenuItem menuRestoreItem() {
+    return this.menuRestoreItem;
   }
 }

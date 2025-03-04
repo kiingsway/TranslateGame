@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSettings {
-  private int totalQuestions;
-  private String category;
-  private String difficult;
-
-  private final List<TranslateItemModel> translationItems;
+  private final int totalQuestions;
+  private final String category;
+  private final String difficult;
 
   public GameSettings (Integer totalQuestions, String category, String difficult) throws SQLException {
 
-    this.translationItems = getTranslationModelItems();
+    List<TranslateItemModel> translationItems = getTranslationModelItems();
     String firstCategory = translationItems.getFirst().category();
 
     this.totalQuestions = (totalQuestions != null) ? totalQuestions : 20;
@@ -30,12 +28,6 @@ public class GameSettings {
   public String category () {return category;}
 
   public String difficult () {return difficult;}
-
-  public void setTotalQuestions (int totalQuestions) {this.totalQuestions = totalQuestions;}
-
-  public void setCategory (String category) {this.category = category;}
-
-  public void setDifficult (String difficult) {this.difficult = difficult;}
 
   private List<TranslateItemModel> getTranslationModelItems () throws SQLException {
 
@@ -52,6 +44,4 @@ public class GameSettings {
 
     return translationItems;
   }
-
-  public List<TranslateItemModel> translationItems () {return translationItems;}
 }

@@ -1,6 +1,5 @@
 package org.example.view.database;
 
-import org.example.controller.database.DBBatchAddController;
 import org.example.view.ViewConstants;
 
 import javax.swing.*;
@@ -37,11 +36,4 @@ public class DBBatchAddView extends JFrame {
 
   public final JButton btnSave () {return btnSave;}
 
-  public static void main (String[] args) {
-    SwingUtilities.invokeLater(() -> {
-      DBBatchAddView view = new DBBatchAddView();
-      new DBBatchAddController(view, null);
-      view.setVisible(true);
-    });
-  }
 }

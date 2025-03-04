@@ -30,6 +30,9 @@ public class MainView extends JFrame {
     setLayout(new GridBagLayout());
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    btnPlayGame.setEnabled(false);
+    btnPlayGame.setToolTipText("Developing...");
+
     settings = new GameSettings(5, null, null);
 
     gbc.insets = new Insets(10, 10, 10, 10);

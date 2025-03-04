@@ -19,7 +19,7 @@ public class DatabaseController {
   private final DatabaseView view;
   private final Runnable updateMainView;
 
-  public DatabaseController (DatabaseView view, Runnable updateData) throws SQLException {
+  public DatabaseController(DatabaseView view, Runnable updateData) {
     this.view = view;
     this.updateMainView = updateData;
 
@@ -38,7 +38,7 @@ public class DatabaseController {
     renderItemsPanel();
   }
 
-  private void openFormView (TranslateItemModel item) {
+  private void openFormView(TranslateItemModel item) {
     SwingUtilities.invokeLater(() -> {
       try {
         DatabaseFormView view = new DatabaseFormView(item);
@@ -51,7 +51,7 @@ public class DatabaseController {
     });
   }
 
-  private void openBatchAdditionView () {
+  private void openBatchAdditionView() {
     SwingUtilities.invokeLater(() -> {
       DBBatchAddView view = new DBBatchAddView();
       new DBBatchAddController(view, this::renderItemsPanel);
@@ -59,11 +59,12 @@ public class DatabaseController {
     });
   }
 
-  private void handleRestoreTranslateItems () {
+  private void handleRestoreTranslateItems() {
     String title = "Restore Translate Items";
     String msg = "Are you sure you want to restore all the translation items? New items will be keep.";
 
-    int response = JOptionPane.showConfirmDialog(view, msg, title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+    int response = JOptionPane.showConfirmDialog(view, msg, title, JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE);
     if (response == JOptionPane.YES_OPTION) {
       try {
         TranslateItemDAO.restoreTranslateItems();
@@ -76,7 +77,7 @@ public class DatabaseController {
     }
   }
 
-  private void renderItemsPanel () {
+  private void renderItemsPanel() {
     JPanel itemsPanel = view.itemsPanel();
     GridBagConstraints gbc = new GridBagConstraints();
     itemsPanel.removeAll();
@@ -89,14 +90,15 @@ public class DatabaseController {
         String cat = item[3], diff = item[4];
         TranslateItemModel itemModel = new TranslateItemModel(id, fr, pt, cat, diff);
         Runnable openFormView = () -> this.openFormView(itemModel);
-        JPanel card = new CardItemComponent(itemModel, openFormView);
+        JPanel card = new CardItemComponent(itemModel, openFormView, this::renderItemsPanel);
 
         gbc.insets = new Insets(5, 0, 5, 0);
         itemsPanel.add(card, gbc);
         gbc.gridy++;
       }
 
-      updateMainView.run();
+      if (updateMainView != null)
+        updateMainView.run();
       view.revalidate();
       view.repaint();
 

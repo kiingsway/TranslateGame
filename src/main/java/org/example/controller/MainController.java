@@ -17,7 +17,7 @@ import static org.example.view.MainView.settings;
 public class MainController {
   private final MainView view;
 
-  public MainController (MainView view) throws SQLException {
+  public MainController (MainView view) {
     this.view = view;
 
     JButton btnDatabase = view.getBtnDatabase();
@@ -35,17 +35,13 @@ public class MainController {
   }
 
   private void btnDatabaseActionListener () {
-    try {
-      DatabaseView dbView = new DatabaseView();
-      Runnable updateData = () -> {
-        fillComboBoxCategories();
-        fillComboBoxDifficulties();
-      };
-      new DatabaseController(dbView, updateData);
-      dbView.setVisible(true);
-    } catch (SQLException e) {
-      showSQLErrorDialog(e);
-    }
+    DatabaseView dbView = new DatabaseView();
+    Runnable updateData = () -> {
+      fillComboBoxCategories();
+      fillComboBoxDifficulties();
+    };
+    new DatabaseController(dbView, updateData);
+    dbView.setVisible(true);
   }
 
   private void btnPlayGameActionListener () {
@@ -58,13 +54,9 @@ public class MainController {
         btnDatabaseActionListener();
       } else {
         SwingUtilities.invokeLater(() -> {
-          try {
-            GameView view = new GameView(settings);
-            new GameController(view);
-            view.setVisible(true);
-          } catch (SQLException e) {
-            showSQLErrorDialog(e);
-          }
+          GameView view = new GameView(settings);
+          new GameController(view);
+          view.setVisible(true);
         });
       }
     } catch (SQLException e) {
