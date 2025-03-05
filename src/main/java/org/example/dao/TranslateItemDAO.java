@@ -19,15 +19,14 @@ public class TranslateItemDAO {
             category TEXT NOT NULL,
             difficultId INTEGER NOT NULL,
             FOREIGN KEY (difficultId) REFERENCES difficulties(id) ON DELETE CASCADE
-          );
-          """;
+          );""";
 
-  public TranslateItemDAO () throws SQLException {
+  public static void ensureData () throws SQLException {
     ensureDifficultData();
     ensureTranslationsData();
   }
 
-  private void ensureDifficultData () throws SQLException {
+  private static void ensureDifficultData () throws SQLException {
     String tableSQL = """
             CREATE TABLE IF NOT EXISTS difficulties (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +50,8 @@ public class TranslateItemDAO {
     }
   }
 
-  private void ensureTranslationsData () throws SQLException {
+  private static void ensureTranslationsData () throws SQLException {
+
 
     try (Connection conn = DriverManager.getConnection(DB_URL); Statement stmt = conn.createStatement()) {
       stmt.execute(translationTableSQL);
@@ -84,41 +84,6 @@ public class TranslateItemDAO {
       throw new SQLException(msg);
     }
     return translations;
-  }
-
-  public static String[] getTranslation (int id) throws RuntimeException {
-    String sql = """
-                SELECT t.id, t.fr, t.pt, t.category, td.title AS difficultTitle
-                FROM translations t
-                JOIN difficulties td ON t.difficultId = td.id
-                WHERE t.id = ?
-            """;
-
-    String[] translation = null;
-
-    try (Connection conn = DriverManager.getConnection(DB_URL); PreparedStatement stmt = conn.prepareStatement(sql)) {
-      stmt.setInt(1, id);
-
-      try (ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-          translation = new String[]{                             // Columns:
-                  String.valueOf(rs.getInt("id")),     // ID
-                  rs.getString("fr"),                  // FR
-                  rs.getString("pt"),                  // PT
-                  rs.getString("category"),            // Category
-                  rs.getString("difficultTitle")       // Difficult Title
-          };
-        }
-      } catch (SQLException e) {
-        String msg = "Error getting translation item (database query):\n" + e.getMessage();
-        throw new RuntimeException(msg);
-      }
-    } catch (Exception e) {
-      String msg = "Error getting translation item (database connection):\n" + e.getMessage();
-      throw new RuntimeException(msg);
-    }
-
-    return translation;
   }
 
   public static List<String[]> getDifficulties () throws SQLException {

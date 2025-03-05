@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSettings {
-  private final int totalQuestions;
+  private int totalQuestions;
   private final String category;
   private final String difficult;
 
@@ -19,7 +19,6 @@ public class GameSettings {
     this.totalQuestions = (totalQuestions != null) ? totalQuestions : 20;
     this.category = (category != null) ? category : firstCategory;
     this.difficult = (difficult != null) ? difficult : "Easy";
-
   }
 
   // Getters e Setters
@@ -44,4 +43,6 @@ public class GameSettings {
 
     return translationItems;
   }
+
+  public void setTotalQuestions (int n) {totalQuestions = n;}
 }

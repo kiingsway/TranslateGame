@@ -23,6 +23,7 @@ public class DatabaseView extends JFrame {
     setLocationRelativeTo(null);
     setResizable(false);
     setLayout(new GridBagLayout());
+    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     btnBatchAdd.setEnabled(false);
     btnBatchAdd.setToolTipText("Developing...");
@@ -71,8 +72,8 @@ public class DatabaseView extends JFrame {
 
     JScrollPane scrollPane = new JScrollPane(itemsPanel);
     scrollPane.setViewportView(itemsPanel);
-    scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-    scrollPane.getVerticalScrollBar().setBlockIncrement(32);
+    scrollPane.getVerticalScrollBar().setUnitIncrement(32);
+    scrollPane.getVerticalScrollBar().setBlockIncrement(64);
 
     gbc.gridy = 1;
     gbc.insets = new Insets(0, 10, 10, 10);

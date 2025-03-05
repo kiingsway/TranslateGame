@@ -1,6 +1,5 @@
 package org.example.view;
 
-import org.example.Main;
 import org.example.model.GameSettings;
 import org.example.view.components.SpinnerComponent;
 
@@ -19,6 +18,7 @@ public class MainView extends JFrame {
   private final JComboBox<String> cbDifficult = new JComboBox<>();
   private final JButton btnDatabase = new JButton("Database");
   private final JButton btnPlayGame = new JButton("Play Game");
+  private final JButton btnCloseGame = new JButton("Quit Game");
 
   public static GameSettings settings;
 
@@ -28,10 +28,7 @@ public class MainView extends JFrame {
     setLocationRelativeTo(null);
     setResizable(false);
     setLayout(new GridBagLayout());
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    btnPlayGame.setEnabled(false);
-    btnPlayGame.setToolTipText("Developing...");
+    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     settings = new GameSettings(5, null, null);
 
@@ -101,8 +98,14 @@ public class MainView extends JFrame {
     buttonPanel.add(btnDatabase, buttonGbc);
 
     buttonGbc.weightx = 0.90;
-    buttonGbc.gridx = 2;
+    buttonGbc.gridx = 1;
     buttonPanel.add(btnPlayGame, buttonGbc);
+
+    buttonGbc.weightx = 1;
+    buttonGbc.gridy = 1;
+    buttonGbc.gridx = 0;
+    buttonGbc.gridwidth = 2;
+    buttonPanel.add(btnCloseGame, buttonGbc);
 
     gbc.insets = new Insets(10, 10, 10, 10);
     gbc.gridy = 4;
@@ -115,13 +118,12 @@ public class MainView extends JFrame {
 
   public JComboBox<String> cbDifficult () {return cbDifficult;}
 
-  public JButton getBtnDatabase () {return btnDatabase;}
+  public JButton btnDatabase () {return btnDatabase;}
 
-  public JButton getBtnPlayGame () {return btnPlayGame;}
+  public JButton btnPlayGame () {return btnPlayGame;}
+
+  public JButton btnCloseGame () {return btnCloseGame;}
 
   public JSpinner spQuestions () {return this.spQuestions;}
 
-  public static void main (String[] args) {
-    SwingUtilities.invokeLater(() -> Main.main(args));
-  }
 }

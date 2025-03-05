@@ -16,6 +16,7 @@ public class DBBatchAddView extends JFrame {
     setLocationRelativeTo(null);
     setResizable(false);
     setLayout(new BorderLayout());
+    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     jsonTextArea.setLineWrap(true);
     jsonTextArea.setWrapStyleWord(true);

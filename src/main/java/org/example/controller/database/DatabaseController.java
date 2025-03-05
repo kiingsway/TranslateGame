@@ -9,17 +9,20 @@ import org.example.view.database.DBBatchAddView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.List;
 
 import static org.example.model.TranslateItemModel.getTranslationItems;
+import static org.example.view.ViewConstants.*;
 
 public class DatabaseController {
 
   private final DatabaseView view;
   private final Runnable updateMainView;
 
-  public DatabaseController(DatabaseView view, Runnable updateData) {
+  public DatabaseController (DatabaseView view, Runnable updateData) {
     this.view = view;
     this.updateMainView = updateData;
 
@@ -31,40 +34,33 @@ public class DatabaseController {
 
     btnCreateItem.addActionListener(_ -> openFormView(null));
     menuCreateItem.addActionListener(_ -> openFormView(null));
-    btnBatchAdd.addActionListener(_ -> openBatchAdditionView());
-    menuBatchAdd.addActionListener(_ -> openBatchAdditionView());
+    btnBatchAdd.addActionListener(_ -> GO_DB_BATCH_ADD(view, this::renderItemsPanel));
+    menuBatchAdd.addActionListener(_ -> GO_DB_BATCH_ADD(view, this::renderItemsPanel));
     menuRestoreItem.addActionListener(_ -> handleRestoreTranslateItems());
+
+    view.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing (WindowEvent e) {GO_HOME(view);}
+    });
 
     renderItemsPanel();
   }
 
-  private void openFormView(TranslateItemModel item) {
-    SwingUtilities.invokeLater(() -> {
-      try {
-        DatabaseFormView view = new DatabaseFormView(item);
-        new DatabaseFormController(view, this::renderItemsPanel);
-        view.setVisible(true);
-      } catch (SQLException er) {
-        String msg = "Error opening database form: " + er.getMessage();
-        JOptionPane.showMessageDialog(view, msg, "Error - SQLException", JOptionPane.ERROR_MESSAGE);
-      }
-    });
+  private void openFormView (TranslateItemModel item) {
+    try {
+      GO_DATABASE_FORM(view, item, this::renderItemsPanel);
+    } catch (SQLException er) {
+      String msg = "Error opening database form: " + er.getMessage();
+      SQLException error = new SQLException(msg, er);
+      SHOW_ERROR_DIALOG(view, error);
+    }
   }
 
-  private void openBatchAdditionView() {
-    SwingUtilities.invokeLater(() -> {
-      DBBatchAddView view = new DBBatchAddView();
-      new DBBatchAddController(view, this::renderItemsPanel);
-      view.setVisible(true);
-    });
-  }
-
-  private void handleRestoreTranslateItems() {
+  private void handleRestoreTranslateItems () {
     String title = "Restore Translate Items";
     String msg = "Are you sure you want to restore all the translation items? New items will be keep.";
 
-    int response = JOptionPane.showConfirmDialog(view, msg, title, JOptionPane.YES_NO_OPTION,
-        JOptionPane.QUESTION_MESSAGE);
+    int response = JOptionPane.showConfirmDialog(view, msg, title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     if (response == JOptionPane.YES_OPTION) {
       try {
         TranslateItemDAO.restoreTranslateItems();
@@ -72,12 +68,12 @@ public class DatabaseController {
         JOptionPane.showMessageDialog(view, msg1, "SUCCESS - Restoring itens", JOptionPane.INFORMATION_MESSAGE);
         renderItemsPanel();
       } catch (SQLException e) {
-        JOptionPane.showMessageDialog(view, e.getMessage(), "ERROR - SQLException", JOptionPane.ERROR_MESSAGE);
+        SHOW_ERROR_DIALOG(view, e);
       }
     }
   }
 
-  private void renderItemsPanel() {
+  private void renderItemsPanel () {
     JPanel itemsPanel = view.itemsPanel();
     GridBagConstraints gbc = new GridBagConstraints();
     itemsPanel.removeAll();
@@ -97,14 +93,14 @@ public class DatabaseController {
         gbc.gridy++;
       }
 
-      if (updateMainView != null)
-        updateMainView.run();
+      if (updateMainView != null) updateMainView.run();
       view.revalidate();
       view.repaint();
 
-    } catch (SQLException e) {
-      String msg = "Error occurred while getting translation items: " + e.getMessage();
-      throw new RuntimeException(msg, e);
+    } catch (SQLException er) {
+      String msg = "Error occurred while getting translation items: " + er.getMessage();
+      Exception e = new Exception(msg, er);
+      SHOW_ERROR_DIALOG(view, e);
     }
   }
 }

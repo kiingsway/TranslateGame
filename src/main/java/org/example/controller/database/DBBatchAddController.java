@@ -6,6 +6,12 @@ import org.example.view.database.DBBatchAddView;
 
 import javax.swing.*;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import static org.example.view.ViewConstants.GO_DATABASE;
+import static org.example.view.ViewConstants.SHOW_ERROR_DIALOG;
+
 public class DBBatchAddController {
 
   private final DBBatchAddView view;
@@ -16,6 +22,11 @@ public class DBBatchAddController {
     this.updateTranslateList = updateTranslateList;
 
     view.btnSave().addActionListener(_ -> handleJsonText());
+
+    view.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing (WindowEvent e) {closeApp();}
+    });
   }
 
   private void handleJsonText () {
@@ -32,12 +43,17 @@ public class DBBatchAddController {
           updateTranslateList.run();
           view.dispose();
         }
-      } catch (Exception e) {
-        String message = "Error processing JSON: " + e.getMessage();
-        JOptionPane.showMessageDialog(view, message, "ERROR - Exception", JOptionPane.ERROR_MESSAGE);
+      } catch (Exception er) {
+        String msg = "Error processing JSON: " + er.getMessage();
+        Exception e = new Exception(msg, er);
+        SHOW_ERROR_DIALOG(view, e);
       }
     } else {
       JOptionPane.showMessageDialog(view, "Por favor, insira um JSON válido.");
     }
+  }
+
+  private void closeApp () {
+    GO_DATABASE(view, updateTranslateList);
   }
 }

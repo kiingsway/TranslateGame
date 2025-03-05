@@ -10,6 +10,8 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+import static org.example.view.ViewConstants.SHOW_ERROR_DIALOG;
+
 public class TranslateItemModel {
 
   private final int id;
@@ -75,9 +77,10 @@ public class TranslateItemModel {
       if (response == JOptionPane.YES_OPTION) {
         TranslateItemDAO.deleteTranslation(item.id());
       }
-    } catch (SQLException e) {
-      msg = "Error deleting item: " + e.getMessage();
-      JOptionPane.showMessageDialog(view, msg, "ERROR - SQLException", JOptionPane.ERROR_MESSAGE);
+    } catch (SQLException er) {
+      msg = "Error deleting item: " + er.getMessage();
+      SQLException e = new SQLException(msg, er);
+      SHOW_ERROR_DIALOG(view, e);
     }
   }
 
