@@ -41,7 +41,7 @@ public class DBBatchAddController {
         } else {
           JOptionPane.showMessageDialog(view, insertedCount + " item(s) inserido(s) com sucesso!");
           updateTranslateList.run();
-          view.dispose();
+          GO_DATABASE(view, updateTranslateList);
         }
       } catch (Exception er) {
         String msg = "Error processing JSON: " + er.getMessage();

@@ -51,15 +51,27 @@ public class TranslateItemDAO {
   }
 
   private static void ensureTranslationsData () throws SQLException {
-
-
     try (Connection conn = DriverManager.getConnection(DB_URL); Statement stmt = conn.createStatement()) {
+
+      // Definir o PRAGMA para permitir leituras concorrentes
+      stmt.execute("PRAGMA journal_mode = WAL;");
+
+      // Criar a tabela se ela não existir
       stmt.execute(translationTableSQL);
+
+      // Verificar se a tabela está vazia
+      String countQuery = "SELECT COUNT(*) FROM translations";
+      try (ResultSet rs = stmt.executeQuery(countQuery)) {
+        if (rs.next() && rs.getInt(1) == 0) {
+          restoreTranslateItems(); // Restaurar itens se a tabela estiver vazia
+        }
+      }
     } catch (SQLException e) {
       String msg = "Error creating 'translations' table:\n" + e.getMessage();
       throw new SQLException(msg);
     }
   }
+
 
   public static List<String[]> getTranslations () throws SQLException {
     List<String[]> translations = new ArrayList<>();

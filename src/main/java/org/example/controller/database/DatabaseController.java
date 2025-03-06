@@ -2,10 +2,8 @@ package org.example.controller.database;
 
 import org.example.dao.TranslateItemDAO;
 import org.example.model.TranslateItemModel;
-import org.example.view.database.DatabaseFormView;
 import org.example.view.database.DatabaseView;
 import org.example.view.components.CardItemComponent;
-import org.example.view.database.DBBatchAddView;
 
 import javax.swing.*;
 import java.awt.*;

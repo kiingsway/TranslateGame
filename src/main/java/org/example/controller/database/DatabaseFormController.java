@@ -26,19 +26,20 @@ public class DatabaseFormController {
     fillComboBoxCategories();
 
     view.btnSave().addActionListener(_ -> validateSaveItem());
-    view.btnCancel().addActionListener(_ -> closeApp());
+    view.btnCancel().addActionListener(_ -> closeDatabaseForm());
     view.btnDelete().addActionListener(_ -> validateDeleteItem());
 
     view.addWindowListener(new WindowAdapter() {
       @Override
-      public void windowClosing (WindowEvent e) {closeApp();}
+      public void windowClosing (WindowEvent e) {closeDatabaseForm();}
     });
   }
 
   private void validateDeleteItem () {
     TranslateItemModel.validateDeleteItem(view.item(), view);
     updateTranslateList.run();
-    view.dispose();
+
+    closeDatabaseForm();
   }
 
   private void fillComboBoxCategories () throws SQLException {
@@ -71,13 +72,13 @@ public class DatabaseFormController {
       }
 
       updateTranslateList.run();
-      view.dispose();
+      closeDatabaseForm();
     } catch (SQLException e) {
       SHOW_ERROR_DIALOG(view, e);
     }
   }
 
-  private void closeApp () {
+  private void closeDatabaseForm () {
     GO_DATABASE(view, updateTranslateList);
   }
 }

@@ -1,9 +1,7 @@
 package org.example.controller;
 
-import org.example.controller.database.DatabaseController;
 import org.example.dao.TranslateItemDAO;
 import org.example.model.GameSettings;
-import org.example.view.database.DatabaseView;
 import org.example.view.MainView;
 
 import javax.swing.*;

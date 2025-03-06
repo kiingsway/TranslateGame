@@ -1,6 +1,5 @@
 package org.example.controller.game;
 
-import org.example.Main;
 import org.example.model.GameSettings;
 import org.example.model.Player;
 import org.example.view.game.GameView;
