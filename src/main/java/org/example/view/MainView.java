@@ -9,8 +9,6 @@ import java.sql.SQLException;
 
 public class MainView extends JFrame {
 
-  public final Font FONT_APP_NAME = new Font("Serif", Font.BOLD, 32);
-
   private final GridBagConstraints gbc = new GridBagConstraints();
 
   private final JSpinner spQuestions = new SpinnerComponent();
@@ -44,7 +42,7 @@ public class MainView extends JFrame {
   private void renderLblTitle () {
     JLabel lblTitle = new JLabel("Translate Game");
     lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-    lblTitle.setFont(FONT_APP_NAME);
+    lblTitle.setFont(ViewConstants.FONT_APP_NAME);
     gbc.gridy = 0;
     gbc.gridx = 0;
     gbc.gridwidth = GridBagConstraints.REMAINDER;

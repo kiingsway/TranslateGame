@@ -72,7 +72,6 @@ public class TranslateItemDAO {
     }
   }
 
-
   public static List<String[]> getTranslations () throws SQLException {
     List<String[]> translations = new ArrayList<>();
     String sql = """

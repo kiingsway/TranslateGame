@@ -34,7 +34,6 @@ public class MainController {
     view.cbCategory().setSelectedItem(settings.category());
     view.cbDifficult().setSelectedItem(settings.difficult());
 
-    // Closing app
     view.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing (WindowEvent e) {closeApp();}
